@@ -1,13 +1,11 @@
 # Product Backlog — warren-dashboard
 
 <!-- This is a living document. Updated by the AIPMO pipeline as issues flow through. -->
-<!-- Last updated: 2026-03-30 — Issue #4 approved by Portfolio Manager. -->
+<!-- Last updated: 2026-03-30 — Issue #4 delivered. All 6 requirements satisfied. -->
 
 ## Active Backlog
 
-| Priority | Issue | WHAT (Capability) | WHY (Reason for Being) | Stage | Effort | Leverage | Notes |
-|----------|-------|--------------------|----------------------|-------|--------|----------|-------|
-| P2 | #4 | Overhaul dashboard: rebrand, unified data, kanban persistence, 36 items populated, daily standup cron | Tony has 36+ active items scattered across brain dumps and transcripts — without a persistent system, items fall through the cracks and follow-ups slip | approved | 22 pts (Promise: 20 pts) | 89.6% Pareto | L, Scenario A approved (Full Promise Scope, 20 pts). Budget: 20 pts committed, ~112 pts remaining. Stretch C6 (stale patrol, +2 pts) if capacity allows. Expected ~1.5 days agent fleet. Next: Technical Planning. |
+_No active items._
 
 ## Cycle Capacity
 
@@ -19,12 +17,14 @@
 | Hours/day/runner | 24h |
 | Working days/sprint | 5 |
 | Utilization factor | 70% |
-| Drag Factor | 1.7× (first cycle, uncalibrated) |
-| **Effective capacity/sprint** | **~132 pts** |
+| Drag Factor | 0.8× (calibrated from cycle 1 — see issue #6 delivery report) |
+| **Effective capacity/sprint** | **~280 pts** |
 
 ## Completed
 
-_None yet._
+| Priority | Issue | WHAT (Capability) | WHY (Reason for Being) | Delivered | Effort | Score | Notes |
+|----------|-------|--------------------|----------------------|-----------|--------|-------|-------|
+| P2 | #4 | Overhaul dashboard: rebrand, unified data, kanban persistence, 36 items populated, daily standup cron, stale patrol | Tony has 36+ active items scattered across brain dumps and transcripts — without a persistent system, items fall through the cracks | 2026-03-30 | 22 pts (all delivered including Stretch) | 6/6 requirements (100%) | Delivered in ~7 hours versus 16.5 estimated. PR #12 merged. Deployed to warren-dashboard.pages.dev. |
 
 ## Superseded / Archived
 
