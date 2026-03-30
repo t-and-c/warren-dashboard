@@ -23,17 +23,17 @@
     {
       "id": 3,
       "title": "Gartner Research Papers Workflow",
-      "description": "Work session with Greg: how to download Gartner research papers and have Greg read through them. Download and put on Google Drive?",
+      "description": "Work session with warren: how to download Gartner research papers and have warren read through them. Download and put on Google Drive?",
       "status": "backlog",
       "priority": "medium",
-      "agent": "greg",
+      "agent": "warren",
       "category": "research",
       "source": "Stream #38"
     },
     {
       "id": 4,
       "title": "Tony Wong Case Studies & History",
-      "description": "Create case study links for Greg to build Tony Wong history: enterprise software, executive coaching, zen, biohacking, podcasting. Feeds marketing and social media.",
+      "description": "Create case study links for warren to build Tony Wong history: enterprise software, executive coaching, zen, biohacking, podcasting. Feeds marketing and social media.",
       "status": "backlog",
       "priority": "medium",
       "agent": "analyst",
@@ -42,11 +42,11 @@
     },
     {
       "id": 5,
-      "title": "Akira PMO Access for Greg",
+      "title": "Akira PMO Access for warren",
       "description": "✅ COMPLETED: Files downloaded from Joana's Google Drive. Agents built and deployed.",
       "status": "done",
       "priority": "high",
-      "agent": "greg",
+      "agent": "warren",
       "category": "development",
       "source": "Stream #34"
     },
@@ -62,28 +62,28 @@
     },
     {
       "id": 7,
-      "title": "Connect Greg to Kendo Slack",
-      "description": "Connect Greg to Kendo Slack so he can read it. Much of data from Kendo Slack becomes news dashboard.",
+      "title": "Connect warren to Kendo Slack",
+      "description": "Connect warren to Kendo Slack so he can read it. Much of data from Kendo Slack becomes news dashboard.",
       "status": "backlog",
       "priority": "medium",
-      "agent": "greg",
+      "agent": "warren",
       "category": "operations",
       "source": "Stream #36, #37"
     },
     {
       "id": 8,
       "title": "Export Multicity Living Chat from Grok",
-      "description": "✅ COMPLETED: Chat exported and saved. Dashboard built: https://greg-dashboard.vercel.app/multi-city-living.html",
+      "description": "✅ COMPLETED: Chat exported and saved. Dashboard built: https://warren-dashboard.vercel.app/multi-city-living.html",
       "status": "done",
       "priority": "medium",
-      "agent": "greg",
+      "agent": "warren",
       "category": "development",
       "source": "Stream #27"
     },
     {
       "id": 9,
-      "title": "Set Up Greg-Context Folder in Google Drive",
-      "description": "Create a 'Greg-Context' folder in Drive for docs you want Greg to reference. Greg can then search/read via the gog skill.",
+      "title": "Set Up warren-Context Folder in Google Drive",
+      "description": "Create a 'warren-Context' folder in Drive for docs you want warren to reference. warren can then search/read via the gog skill.",
       "status": "backlog",
       "priority": "medium",
       "agent": "tony",
@@ -93,7 +93,7 @@
     {
       "id": 10,
       "title": "Explain Profiler & Multi-Agent Distribution Product Customizer",
-      "description": "Need to explain the profiler and multi-agent distribution product customizer to Greg. This is the MISSING PIECE for value prioritization (Pareto Engine).",
+      "description": "Need to explain the profiler and multi-agent distribution product customizer to warren. This is the MISSING PIECE for value prioritization (Pareto Engine).",
       "status": "today",
       "priority": "medium",
       "agent": "tony",
@@ -103,10 +103,10 @@
     {
       "id": 11,
       "title": "Learn Local Unconstrained Models on Mac Studio",
-      "description": "Have Greg teach how to use unconstrained models locally on 512GB Mac Studio. Ollama setup, recommended models (Llama, Mistral, etc.).",
+      "description": "Have warren teach how to use unconstrained models locally on 512GB Mac Studio. Ollama setup, recommended models (Llama, Mistral, etc.).",
       "status": "backlog",
       "priority": "medium",
-      "agent": "greg",
+      "agent": "warren",
       "category": "research",
       "source": "Stream #40"
     },
@@ -116,14 +116,14 @@
       "description": "Review the Akira Estimator source code and requirements documentation. Files in /akira-analysis/ and /ai-pmo-docs/",
       "status": "today",
       "priority": "high",
-      "agent": "greg",
+      "agent": "warren",
       "category": "research",
       "source": "Deferred from Feb 6"
     },
     {
       "id": 13,
       "title": "Review Multi-City Living Dashboard Output",
-      "description": "Review the multi-city living dashboard built from Grok chat export. Dashboard: https://greg-dashboard.vercel.app/multi-city-living.html",
+      "description": "Review the multi-city living dashboard built from Grok chat export. Dashboard: https://warren-dashboard.vercel.app/multi-city-living.html",
       "status": "today",
       "priority": "high",
       "agent": "tony",
@@ -176,7 +176,7 @@
       "description": "Tony to explain requirements for Personal OS agent.",
       "status": "waiting",
       "priority": "low",
-      "agent": "greg",
+      "agent": "warren",
       "category": "design",
       "source": "Standup Feb 7"
     }
