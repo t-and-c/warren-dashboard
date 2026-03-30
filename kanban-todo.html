@@ -360,7 +360,6 @@
     <div class="top-bar">
         <a href="hub-tony.html" class="back-link">← Back to Tony's Dashboard Hub</a>
         <div class="top-actions">
-            <button class="btn btn-secondary" id="save-changes-btn" onclick="saveAllChanges()" style="display:none; background:#10b981;">💾 Save Changes</button>
             <button class="btn btn-secondary" onclick="exportData()">📥 Export</button>
             <button class="btn btn-secondary" onclick="importData()">📤 Import</button>
             <button class="btn btn-primary" onclick="openAddModal()">+ Add Task</button>
@@ -526,7 +525,6 @@
 
         // Data
         let tasks = [];
-        let hasUnsavedChanges = false;
         
         const AGENT_LABELS = {
             'warren': 'Warren',
@@ -538,13 +536,8 @@
         
         // Initialize
         async function init() {
-            console.log('[v0] === INIT START ===');
-            console.log('[v0] Supabase URL:', SUPABASE_URL);
-            console.log('[v0] Board name:', BOARD_NAME);
-            console.log('[v0] Supabase client created:', !!db);
             await loadData();
             renderBoard();
-            console.log('[v0] === INIT COMPLETE === Tasks loaded:', tasks.length);
         }
         
         // Load from Supabase
@@ -558,24 +551,20 @@
                     .order('position', { ascending: true });
                 
                 if (error) throw error;
-                
-                console.log('[v0] Raw data from Supabase:', data);
-                
-                // Map Supabase data to task format
-                // IMPORTANT: spread data FIRST, then override id/status/position
-                // so that data.id (numeric) doesn't overwrite item_id (string like "task-10")
+
+                // Map Supabase data to task format.
+                // Spread parsed data first, then always override id with item_id (string from Supabase)
+                // so numeric data.id never clobbers the canonical string item_id.
                 tasks = data.map(item => {
                     const parsed = typeof item.data === 'string' ? JSON.parse(item.data) : (item.data || {});
                     return {
                         ...parsed,
-                        id: item.item_id || item.id,
+                        id: item.item_id,
                         supabaseId: item.id,
                         status: item.column_id,
                         position: item.position ?? 0,
                     };
                 });
-                
-                console.log(`[v0] Loaded ${tasks.length} tasks from Supabase:`, tasks.map(t => ({ id: t.id, status: t.status, position: t.position })));
             } catch (e) {
                 console.error('[v0] Failed to load from Supabase:', e);
                 tasks = [];
@@ -621,12 +610,13 @@
             }
         }
         
-        // Update task status (for drag-drop)
+        // Update task status and position (for drag-drop)
         async function updateTaskStatus(taskId, newStatus) {
+            const task = tasks.find(t => String(t.id) === String(taskId));
             try {
                 const { error } = await db
                     .from('kanban_items')
-                    .update({ column_id: newStatus })
+                    .update({ column_id: newStatus, position: task ? task.position : 0 })
                     .eq('board', BOARD_NAME)
                     .eq('item_id', String(taskId));
                 if (error) throw error;
@@ -635,91 +625,20 @@
             }
         }
         
-        // Save all changes (positions and statuses)
+        // Save all changes (positions and statuses) — used by export/import flows
         async function saveAllChanges() {
-            console.log('[v0] === SAVE ALL CHANGES START ===');
-            console.log('[v0] SUPABASE_URL:', SUPABASE_URL);
-            console.log('[v0] BOARD_NAME:', BOARD_NAME);
-            console.log('[v0] db client exists:', !!db);
-            console.log('[v0] Tasks count:', tasks.length);
-            console.log('[v0] Tasks to save:', JSON.stringify(tasks.map(t => ({ id: t.id, type: typeof t.id, status: t.status, position: t.position }))));
-            
-            const saveBtn = document.getElementById('save-changes-btn');
-            const originalText = saveBtn.textContent;
-            saveBtn.textContent = '... Saving...';
-            saveBtn.disabled = true;
-            
-            try {
-                let savedCount = 0;
-                let zeroRowsCount = 0;
-                let errors = [];
-                
-                // Update each task
-                for (const task of tasks) {
-                    const itemId = String(task.id);
-                    console.log(`[v0] Saving task: item_id="${itemId}", column_id="${task.status}", position=${task.position}`);
-                    
-                    const { data, error, count, status, statusText } = await db
-                        .from('kanban_items')
-                        .update({ 
-                            column_id: task.status,
-                            position: task.position
-                        })
-                        .eq('board', BOARD_NAME)
-                        .eq('item_id', itemId)
-                        .select();
-                    
-                    console.log(`[v0] Response for ${itemId}: status=${status}, rows=${data?.length}, error=${error?.message || 'none'}, data=`, data);
-                    
-                    if (error) {
-                        console.error(`[v0] SAVE ERROR for ${itemId}:`, JSON.stringify(error));
-                        errors.push({ taskId: itemId, error: error.message, code: error.code });
-                    } else if (!data || data.length === 0) {
-                        console.warn(`[v0] ZERO ROWS updated for ${itemId} - item_id not found in DB!`);
-                        zeroRowsCount++;
-                    } else {
-                        console.log(`[v0] SAVE OK for ${itemId}, updated row:`, JSON.stringify(data[0]));
-                        savedCount++;
-                    }
-                }
-                
-                console.log(`[v0] === SAVE COMPLETE: ${savedCount} ok, ${zeroRowsCount} zero-rows, ${errors.length} errors (total: ${tasks.length}) ===`);
-                if (zeroRowsCount > 0) console.error(`[v0] WARNING: ${zeroRowsCount} tasks had no matching row in DB. Check item_id format.`);
-                if (errors.length > 0) console.error('[v0] Save errors:', JSON.stringify(errors));
-                
-                // Show result in alert so user sees it without dev tools
-                alert(`Save result: ${savedCount} saved, ${zeroRowsCount} not found, ${errors.length} errors`);
-                
-                hasUnsavedChanges = false;
-                saveBtn.style.display = 'none';
-                saveBtn.textContent = originalText;
-                saveBtn.disabled = false;
-                
-                // Show summary in alert
-                const summary = ['Saved positions:', ''];
-                ['backlog', 'today', 'progress', 'waiting', 'done'].forEach(status => {
-                    const columnTasks = tasks.filter(t => t.status === status);
-                    if (columnTasks.length > 0) {
-                        summary.push(`${status.toUpperCase()}:`);
-                        columnTasks.forEach(t => summary.push(`  ${t.position}: ${t.title}`));
-                        summary.push('');
-                    }
-                });
-                summary.push(`Total: ${savedCount}/${tasks.length} tasks saved`);
-                alert(summary.join('\n'));
-                
-            } catch (e) {
-                alert('Error saving: ' + e.message);
-                saveBtn.textContent = originalText;
-                saveBtn.disabled = false;
+            for (const task of tasks) {
+                const itemId = String(task.id);
+                const { error } = await db
+                    .from('kanban_items')
+                    .update({
+                        column_id: task.status,
+                        position: task.position
+                    })
+                    .eq('board', BOARD_NAME)
+                    .eq('item_id', itemId);
+                if (error) console.error(`Failed to save ${itemId}:`, error);
             }
-        }
-        
-        // Mark that changes need to be saved
-        function markUnsavedChanges() {
-            hasUnsavedChanges = true;
-            const saveBtn = document.getElementById('save-changes-btn');
-            saveBtn.style.display = 'inline-block';
         }
         
         function renderBoard() {
@@ -791,29 +710,22 @@
                     onEnd: function(evt) {
                         const cardId = evt.item.dataset.id;
                         const newStatus = evt.to.id.replace('list-', '');
-                        
-                        console.log('[v0] Card moved:', { cardId, to: newStatus, newIndex: evt.newIndex });
-                        
+
                         const task = tasks.find(t => String(t.id) === String(cardId));
                         if (task) {
                             task.status = newStatus;
-                            
-                            // Update positions based on DOM order for both columns
+
+                            // Update positions based on DOM order for all columns
                             ['backlog', 'today', 'progress', 'waiting', 'done'].forEach(status => {
                                 const listEl = document.getElementById(`list-${status}`);
-                                const cards = Array.from(listEl.children);
-                                cards.forEach((card, index) => {
+                                Array.from(listEl.children).forEach((card, index) => {
                                     const cardTask = tasks.find(t => String(t.id) === String(card.dataset.id));
-                                    if (cardTask) {
-                                        cardTask.position = index;
-                                    }
+                                    if (cardTask) cardTask.position = index;
                                 });
                             });
-                            
+
                             updateCounts();
-                            markUnsavedChanges();
-                            
-                            console.log('[v0] Changes marked - click Save Changes to persist');
+                            updateTaskStatus(task.id, newStatus);
                         }
                     }
                 });
@@ -839,7 +751,7 @@
         }
         
         function openEditModal(id) {
-            const task = tasks.find(t => t.id === id);
+            const task = tasks.find(t => String(t.id) === String(id));
             if (!task) return;
             
             document.getElementById('modal-title').textContent = 'Edit Task';
