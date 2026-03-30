@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Daily Standup - Tony + Greg</title>
+    <title>Daily Standup - Tony + Warren</title>
     <style>
         * {
             margin: 0;
@@ -86,7 +86,7 @@
         .person-card.tony {
             border-color: rgba(251, 191, 36, 0.3);
         }
-        .person-card.greg {
+        .person-card.warren {
             border-color: rgba(102, 126, 234, 0.3);
         }
         .person-header {
@@ -109,7 +109,7 @@
         .tony .person-avatar {
             background: rgba(251, 191, 36, 0.2);
         }
-        .greg .person-avatar {
+        .warren .person-avatar {
             background: rgba(102, 126, 234, 0.2);
         }
         .person-name {
@@ -347,7 +347,7 @@
         </div>
         <header>
             <h1>Daily Standup</h1>
-            <p class="subtitle">Tony + Greg — Three questions, every day.</p>
+            <p class="subtitle">Tony + Warren — Three questions, every day.</p>
             <div class="date-display" id="current-date"></div>
         </header>
 
@@ -393,26 +393,26 @@
                 </div>
             </div>
 
-            <!-- Greg's Card -->
-            <div class="person-card greg">
+            <!-- Warren's Card -->
+            <div class="person-card warren">
                 <div class="person-header">
                     <div class="person-avatar">🤖</div>
                     <div>
-                        <div class="person-name">Greg</div>
+                        <div class="person-name">Warren</div>
                         <div class="person-role">Exec AI Assistant</div>
                     </div>
                 </div>
                 <div class="question-block">
                     <div class="question-label yesterday">Yesterday</div>
-                    <textarea class="answer-input" id="greg-yesterday" placeholder="What Greg accomplished yesterday..."></textarea>
+                    <textarea class="answer-input" id="warren-yesterday" placeholder="What Warren accomplished yesterday..."></textarea>
                 </div>
                 <div class="question-block">
                     <div class="question-label today">Today</div>
-                    <textarea class="answer-input" id="greg-today" placeholder="What Greg is working on today..."></textarea>
+                    <textarea class="answer-input" id="warren-today" placeholder="What Warren is working on today..."></textarea>
                 </div>
                 <div class="question-block">
                     <div class="question-label blockers">Blockers</div>
-                    <textarea class="answer-input" id="greg-blockers" placeholder="Anything blocking Greg?"></textarea>
+                    <textarea class="answer-input" id="warren-blockers" placeholder="Anything blocking Warren?"></textarea>
                 </div>
             </div>
         </div>
@@ -431,7 +431,7 @@
         </div>
 
         <footer>
-            Daily Standup Dashboard • Tony + Greg • February 2026
+            Daily Standup Dashboard • Tony + Warren • February 2026
         </footer>
     </div>
 
@@ -468,7 +468,7 @@
                             date: row.date,
                             timestamp: row.data?.timestamp || row.created_at,
                             tony: row.data?.tony || { yesterday: '', today: '', blockers: '' },
-                            greg: row.data?.greg || { yesterday: '', today: '', blockers: '' },
+                            warren: row.data?.warren || { yesterday: '', today: '', blockers: '' },
                             _id: row.id
                         }));
                     } else {
@@ -482,7 +482,7 @@
                                 if (!exists) {
                                     await db.from('standups').insert({
                                         date: s.date,
-                                        data: { timestamp: s.timestamp, tony: s.tony, greg: s.greg }
+                                        data: { timestamp: s.timestamp, tony: s.tony, warren: s.warren }
                                     });
                                 }
                             }
@@ -525,9 +525,9 @@
                 document.getElementById('tony-yesterday').value = existing.tony.yesterday || '';
                 document.getElementById('tony-today').value = existing.tony.today || '';
                 document.getElementById('tony-blockers').value = existing.tony.blockers || '';
-                document.getElementById('greg-yesterday').value = existing.greg.yesterday || '';
-                document.getElementById('greg-today').value = existing.greg.today || '';
-                document.getElementById('greg-blockers').value = existing.greg.blockers || '';
+                document.getElementById('warren-yesterday').value = existing.warren.yesterday || '';
+                document.getElementById('warren-today').value = existing.warren.today || '';
+                document.getElementById('warren-blockers').value = existing.warren.blockers || '';
             }
         }
 
@@ -541,10 +541,10 @@
                     today: document.getElementById('tony-today').value.trim(),
                     blockers: document.getElementById('tony-blockers').value.trim()
                 },
-                greg: {
-                    yesterday: document.getElementById('greg-yesterday').value.trim(),
-                    today: document.getElementById('greg-today').value.trim(),
-                    blockers: document.getElementById('greg-blockers').value.trim()
+                warren: {
+                    yesterday: document.getElementById('warren-yesterday').value.trim(),
+                    today: document.getElementById('warren-today').value.trim(),
+                    blockers: document.getElementById('warren-blockers').value.trim()
                 }
             };
 
@@ -559,7 +559,7 @@
             // Save to Supabase (primary)
             if (db) {
                 try {
-                    const payload = { date: today, data: { timestamp: standup.timestamp, tony: standup.tony, greg: standup.greg } };
+                    const payload = { date: today, data: { timestamp: standup.timestamp, tony: standup.tony, warren: standup.warren } };
                     // Try update first (existing row), then insert if not found
                     const { data: existing } = await db.from('standups').select('id').eq('date', today).maybeSingle();
                     if (existing) {
@@ -585,9 +585,9 @@
             document.getElementById('tony-yesterday').value = '';
             document.getElementById('tony-today').value = '';
             document.getElementById('tony-blockers').value = '';
-            document.getElementById('greg-yesterday').value = '';
-            document.getElementById('greg-today').value = '';
-            document.getElementById('greg-blockers').value = '';
+            document.getElementById('warren-yesterday').value = '';
+            document.getElementById('warren-today').value = '';
+            document.getElementById('warren-blockers').value = '';
         }
 
         function renderHistory() {
@@ -600,7 +600,7 @@
             list.innerHTML = standups.slice(0, 10).map((s, i) => {
                 const date = new Date(s.date + 'T12:00:00');
                 const dateStr = date.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
-                const preview = s.tony.today || s.greg.today || 'No details';
+                const preview = s.tony.today || s.warren.today || 'No details';
                 return `
                     <div class="history-item" onclick="viewStandup(${i})">
                         <div class="history-date">${dateStr}</div>
@@ -637,24 +637,24 @@
                         <div class="answer-display ${!s.tony.blockers ? 'empty' : ''}">${escapeHtml(s.tony.blockers) || 'None'}</div>
                     </div>
                 </div>
-                <div class="person-card greg">
+                <div class="person-card warren">
                     <div class="person-header">
                         <div class="person-avatar">🤖</div>
                         <div>
-                            <div class="person-name">Greg</div>
+                            <div class="person-name">Warren</div>
                         </div>
                     </div>
                     <div class="question-block">
                         <div class="question-label yesterday">Yesterday</div>
-                        <div class="answer-display ${!s.greg.yesterday ? 'empty' : ''}">${escapeHtml(s.greg.yesterday) || 'No entry'}</div>
+                        <div class="answer-display ${!s.warren.yesterday ? 'empty' : ''}">${escapeHtml(s.warren.yesterday) || 'No entry'}</div>
                     </div>
                     <div class="question-block">
                         <div class="question-label today">Today</div>
-                        <div class="answer-display ${!s.greg.today ? 'empty' : ''}">${escapeHtml(s.greg.today) || 'No entry'}</div>
+                        <div class="answer-display ${!s.warren.today ? 'empty' : ''}">${escapeHtml(s.warren.today) || 'No entry'}</div>
                     </div>
                     <div class="question-block">
                         <div class="question-label blockers">Blockers</div>
-                        <div class="answer-display ${!s.greg.blockers ? 'empty' : ''}">${escapeHtml(s.greg.blockers) || 'None'}</div>
+                        <div class="answer-display ${!s.warren.blockers ? 'empty' : ''}">${escapeHtml(s.warren.blockers) || 'None'}</div>
                     </div>
                 </div>
             `;
@@ -703,10 +703,10 @@
                         if (data.tony.today) document.getElementById('tony-today').value = data.tony.today;
                         if (data.tony.blockers) document.getElementById('tony-blockers').value = data.tony.blockers;
                     }
-                    if (data.greg) {
-                        if (data.greg.yesterday) document.getElementById('greg-yesterday').value = data.greg.yesterday;
-                        if (data.greg.today) document.getElementById('greg-today').value = data.greg.today;
-                        if (data.greg.blockers) document.getElementById('greg-blockers').value = data.greg.blockers;
+                    if (data.warren) {
+                        if (data.warren.yesterday) document.getElementById('warren-yesterday').value = data.warren.yesterday;
+                        if (data.warren.today) document.getElementById('warren-today').value = data.warren.today;
+                        if (data.warren.blockers) document.getElementById('warren-blockers').value = data.warren.blockers;
                     }
                     
                     // Auto-save after injection
@@ -731,7 +731,7 @@
                 today: '- Review Estimator & Requirements MD\n- Review Multi-City Living Dashboard Output\n- Kanban dashboard refactor (in progress)\n- Define Personal OS agent scope',
                 blockers: '- Ideas move faster than execution capacity -> manifests as lack of focus\n- Greg helps prioritize and narrow scope for focused execution'
             },
-            greg: {
+            warren: {
                 yesterday: '- Exec.AI hypnagogic workflow demo (40+ cards -> Stream -> routing)\n- Built Stream of Consciousness + Standup dashboards\n- Akira PMO deep dive: APP methodology, See It Cycle, multi-agent architecture\n- VtKl Slack integration (done)\n- OpenAI fallback configured (done)\n- Multi-City Living dashboard (from Grok convo)\n- Key insight: The Unlock = Profiler + Prioritizer (Akira) + Executor (Jarvis)\n- See It Cycle integration into all agent .MD files',
                 today: '- Daily standup protocol\n- Review Estimator & Requirements MD\n- Review Multi-City Living Dashboard Output\n- Build Kanban dashboard with SortableJS (done)\n- Create Tony\'s Personal Dashboard Hub (done)\n- Migrate all todos to Kanban (done)\n- Sub-agent architecture: Greg as Chief of Staff',
                 blockers: '- QA process gap (improving - now testing before declaring done)\n- Supabase backend needed for cross-device data sync'
