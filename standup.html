@@ -687,7 +687,7 @@
             if (e.target === this) closeModal();
         });
 
-        // API: Allow Greg to inject standup data via URL hash
+        // API: Allow Warren to inject standup data via URL hash
         // Format: #inject=BASE64_JSON
         function checkForInjection() {
             const hash = window.location.hash;
@@ -715,7 +715,7 @@
                     // Clean up URL
                     history.replaceState(null, '', window.location.pathname);
                     
-                    console.log('Standup data injected by Greg');
+                    console.log('Standup data injected by Warren');
                 } catch (e) {
                     console.error('Failed to parse injected data:', e);
                 }
@@ -727,13 +727,13 @@
             date: '2026-02-07',
             timestamp: new Date().toISOString(),
             tony: {
-                yesterday: '- All items Greg listed\n- See It Cycle integration - two key unlock insights\n- Defined Greg\'s role: Chief of Staff managing personal agent team',
+                yesterday: '- All items Warren listed\n- See It Cycle integration - two key unlock insights\n- Defined Warren\'s role: Chief of Staff managing personal agent team',
                 today: '- Review Estimator & Requirements MD\n- Review Multi-City Living Dashboard Output\n- Kanban dashboard refactor (in progress)\n- Define Personal OS agent scope',
-                blockers: '- Ideas move faster than execution capacity -> manifests as lack of focus\n- Greg helps prioritize and narrow scope for focused execution'
+                blockers: '- Ideas move faster than execution capacity -> manifests as lack of focus\n- Warren helps prioritize and narrow scope for focused execution'
             },
             warren: {
                 yesterday: '- Exec.AI hypnagogic workflow demo (40+ cards -> Stream -> routing)\n- Built Stream of Consciousness + Standup dashboards\n- Akira PMO deep dive: APP methodology, See It Cycle, multi-agent architecture\n- VtKl Slack integration (done)\n- OpenAI fallback configured (done)\n- Multi-City Living dashboard (from Grok convo)\n- Key insight: The Unlock = Profiler + Prioritizer (Akira) + Executor (Jarvis)\n- See It Cycle integration into all agent .MD files',
-                today: '- Daily standup protocol\n- Review Estimator & Requirements MD\n- Review Multi-City Living Dashboard Output\n- Build Kanban dashboard with SortableJS (done)\n- Create Tony\'s Personal Dashboard Hub (done)\n- Migrate all todos to Kanban (done)\n- Sub-agent architecture: Greg as Chief of Staff',
+                today: '- Daily standup protocol\n- Review Estimator & Requirements MD\n- Review Multi-City Living Dashboard Output\n- Build Kanban dashboard with SortableJS (done)\n- Create Tony\'s Personal Dashboard Hub (done)\n- Migrate all todos to Kanban (done)\n- Sub-agent architecture: Warren as Chief of Staff',
                 blockers: '- QA process gap (improving - now testing before declaring done)\n- Supabase backend needed for cross-device data sync'
             }
         };

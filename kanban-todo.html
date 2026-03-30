@@ -377,7 +377,7 @@
             <span class="filter-label">Agent:</span>
             <select class="filter-select" id="filter-agent" onchange="applyFilters()">
                 <option value="">All</option>
-                <option value="greg">Greg (Chief of Staff)</option>
+                <option value="warren">Warren (Chief of Staff)</option>
                 <option value="coder">10x Coder</option>
                 <option value="analyst">Tech Analyst</option>
                 <option value="personal-os">Personal OS</option>
@@ -486,7 +486,7 @@
                 <div class="form-group">
                     <label class="form-label">Assigned Agent</label>
                     <select class="form-select" id="task-agent">
-                        <option value="greg">Greg (Chief of Staff)</option>
+                        <option value="warren">Warren (Chief of Staff)</option>
                         <option value="coder">10x Coder</option>
                         <option value="analyst">Tech Analyst</option>
                         <option value="personal-os">Personal OS</option>
@@ -513,7 +513,7 @@
     </div>
     
     <footer>
-        To-Do Kanban • Tony's Personal Dashboard • Chief of Staff: Greg
+        To-Do Kanban • Tony's Personal Dashboard • Chief of Staff: Warren
     </footer>
     
     <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
@@ -529,7 +529,7 @@
         let hasUnsavedChanges = false;
         
         const AGENT_LABELS = {
-            'greg': 'Greg',
+            'warren': 'Warren',
             'coder': '10x Coder',
             'analyst': 'Tech Analyst',
             'personal-os': 'Personal OS',
@@ -833,7 +833,7 @@
             document.getElementById('task-description').value = '';
             document.getElementById('task-status').value = status;
             document.getElementById('task-priority').value = 'medium';
-            document.getElementById('task-agent').value = 'greg';
+            document.getElementById('task-agent').value = 'warren';
             document.getElementById('task-category').value = 'development';
             document.getElementById('task-modal').classList.add('visible');
         }

@@ -468,10 +468,10 @@
                 }
             },
             "contracts": [
-                {"issue_id":"VTK-12","issue_url":"https://linear.app/vtkl-greg/issue/VTK-12/add-health-check-endpoint","squad":"Alpha","status":"ACCEPTED","hash":"bae4a6b6","updated":"2026-02-12T10:34:12Z"},
-                {"issue_id":"VTK-13","issue_url":"https://linear.app/vtkl-greg/issue/VTK-13/add-request-logging-middleware","squad":"Beta","status":"PENDING","hash":"","updated":"2026-02-12T10:35:00Z"},
-                {"issue_id":"VTK-14","issue_url":"https://linear.app/vtkl-greg/issue/VTK-14/add-docker-support","squad":"Gamma","status":"PENDING","hash":"","updated":"2026-02-12T10:35:00Z"},
-                {"issue_id":"VTK-7","issue_url":"https://linear.app/vtkl-greg/issue/VTK-7/t-deploy-001-cicd-pipeline-setup","squad":"Alpha","status":"PENDING","hash":"","updated":"2026-02-12T10:35:00Z"}
+                {"issue_id":"VTK-12","issue_url":"https://linear.app/vtkl-warren/issue/VTK-12/add-health-check-endpoint","squad":"Alpha","status":"ACCEPTED","hash":"bae4a6b6","updated":"2026-02-12T10:34:12Z"},
+                {"issue_id":"VTK-13","issue_url":"https://linear.app/vtkl-warren/issue/VTK-13/add-request-logging-middleware","squad":"Beta","status":"PENDING","hash":"","updated":"2026-02-12T10:35:00Z"},
+                {"issue_id":"VTK-14","issue_url":"https://linear.app/vtkl-warren/issue/VTK-14/add-docker-support","squad":"Gamma","status":"PENDING","hash":"","updated":"2026-02-12T10:35:00Z"},
+                {"issue_id":"VTK-7","issue_url":"https://linear.app/vtkl-warren/issue/VTK-7/t-deploy-001-cicd-pipeline-setup","squad":"Alpha","status":"PENDING","hash":"","updated":"2026-02-12T10:35:00Z"}
             ],
             "alerts": [
                 {"severity":"warning","message":"FC-Gamma silent for 45min","timestamp":"2026-02-12T20:30:00Z"},
@@ -591,7 +591,7 @@
             
             tbody.innerHTML = contracts.map(contract => `
                 <tr>
-                    <td><a href="${contract.issue_url && contract.issue_url !== '#' ? contract.issue_url : 'https://linear.app/vtkl-greg/issue/' + contract.issue_id}" target="_blank" style="color: #00d4aa;">${contract.issue_id}</a></td>
+                    <td><a href="${contract.issue_url && contract.issue_url !== '#' ? contract.issue_url : 'https://linear.app/vtkl-warren/issue/' + contract.issue_id}" target="_blank" style="color: #00d4aa;">${contract.issue_id}</a></td>
                     <td>${contract.squad}</td>
                     <td><span class="status-${contract.status}">${contract.status}</span></td>
                     <td><code>${contract.hash || 'pending'}</code></td>
