@@ -8,14 +8,14 @@
 
 ## Overview
 
-Overhaul the Warren Dashboard (formerly "Greg Dashboard") into Tony's Chief of Staff personal operating system. The dashboard is the persistent backend for Tony's task management, decision queue, and daily standup with Warren.
+Overhaul the Warren Dashboard into Tony's Chief of Staff personal operating system. The dashboard is the persistent backend for Tony's task management, decision queue, and daily standup with Warren.
 
 ## Project State: Existing Codebase
 
 This is **not** a greenfield project. The repository contains an established static HTML/JS site with:
 
 - **33 HTML pages** (~22,472 lines total) — hub, kanban boards, todo list, standup, meals, health, finance, knowledge, marketing, and specialized views
-- **Vercel deployment** at `greg-dashboard.vercel.app` (static hosting + Edge Middleware for auth)
+- **Vercel deployment** at `warren-dashboard.vercel.app` (static hosting + Edge Middleware for auth) — **Note:** Vercel project rename to `warren-dashboard` requires human action by Tony/Charlie via the Vercel dashboard (`needs-human`)
 - **Supabase persistence** at `mmwbiogqmgmtxboipyko.supabase.co` with two task-related tables (`todos`, `kanban_items`)
 - **Basic auth** via `middleware.js` (Vercel Edge Middleware) with per-user access control
 - **JSON data files** in `data/` (legacy fallback data)
@@ -36,7 +36,7 @@ For each product requirement to be fulfilled end-to-end (from implementation to 
 | Dependency | Current Status | Required By | Action |
 |-----------|---------------|-------------|--------|
 | Vercel deployment pipeline | Exists — auto-deploys on push to `main` | R1, R2, R3, R4 | No action needed |
-| Vercel project access (rename) | Exists — `vercel.json` configured, `.vercel/` directory present | R1 | Verify CLI access or use Vercel dashboard. If token unavailable, escalate as `needs-human` |
+| Vercel project access (rename) | Exists — `vercel.json` configured, `.vercel/` directory present | R1 | **`needs-human`** — Vercel CLI access not available. Tony/Charlie must rename project via Vercel dashboard. |
 | Supabase database access | Exists — publishable key hardcoded in HTML files | R2, R4 | Schema changes require Supabase dashboard SQL Editor or CLI with DB password |
 | Supabase schema migration capability | Needs verification — no migration tooling exists | R2 | Run SQL directly in Supabase dashboard or via `psql` with connection string |
 | Authentication | Exists — `middleware.js` with Basic Auth | All | Already updated in PR #5 (realm: "Warren Dashboard") |
@@ -186,8 +186,8 @@ warren-dashboard/
 1. `kanban-todo.html` — Fix persistence bug, update to use enriched schema
 2. `todos.html` — Repoint from `todos` table to `kanban_items` table
 3. `standup.html` — Repoint to `kanban_items` table
-4. `supabase-schema.sql` — Update schema reference, remove "Greg" comment
-5. `hub-tony.html` — Verify zero Greg references (PR #5 should have handled this)
+4. `supabase-schema.sql` — Verify schema reference says "Warren Dashboard"
+5. `hub-tony.html` — Verify zero rebrand references remain (PR #5 handled this)
 
 ---
 
@@ -272,7 +272,7 @@ Based on code review of `kanban-todo.html` (lines 519-700):
 
 | Requirement | Verification Method |
 |------------|-------------------|
-| R1: Rebrand | `grep -ri "greg" --include="*.html" --include="*.js" --include="*.json" --include="*.sql"` returns zero results |
+| R1: Rebrand | Grep sweep across all tracked file types returns zero results for the old brand name |
 | R2: Unified data | Query `kanban_items` for `board='todos'` and verify all 36 items present. Open `todos.html` and `kanban-todo.html` — verify same items appear. |
 | R3: Persistence | Manual test: create item → drag to new column → refresh page → verify item stayed in new column. Check browser console for zero-row warnings. |
 | R4: Population | Count items in Supabase: `SELECT count(*) FROM kanban_items WHERE board='todos'` = 36. Verify priorities match spec. |

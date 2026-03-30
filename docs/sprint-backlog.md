@@ -11,7 +11,7 @@
 |---|-------------|------------------|:------:|--------|:------:|
 | #7 | Migrate Supabase schema: enrich kanban_items + updated_at trigger | Unified data model with queryable columns and stale detection | 3h | Runner 1 | ⬜ Not Started |
 | #8 | Fix kanban drag-and-drop persistence: item_id mismatch | Drag-and-drop changes persist across page refresh | 5h | Runner 1 | ⬜ Not Started |
-| #9 | Complete Greg to Warren rebrand: zero references | Clean Warren identity — zero Greg references in code, schema, data | 2.5h | Runner 2 | ⬜ Not Started |
+| #9 | Complete Warren rebrand: zero legacy references | Clean Warren identity — zero legacy references in code, schema, data | 2.5h | Runner 2 | ✅ Done |
 | #10 | Populate kanban board with 36 current action items | All 36 Tony action items visible and categorized on the board | 2h | Runner 1 | ⬜ Not Started |
 | #11 | Create OpenClaw cron jobs: daily standup + stale patrol | Automated 8:30am HST standup to Tony's DM + weekly stale item alerts | 4h | Runner 3 | ⬜ Not Started |
 
