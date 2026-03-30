@@ -1,4 +1,4 @@
--- Supabase Schema for Greg Dashboard
+-- Supabase Schema for Warren Dashboard
 -- Run this in Supabase SQL Editor: https://supabase.com/dashboard
 
 -- ============================================
