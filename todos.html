@@ -359,6 +359,7 @@
 
     <script>
         const CATEGORY_ICONS = {
+            // legacy (capitalized)
             'Partnerships': '🤝',
             'Marketing': '📣',
             'Research': '🔬',
@@ -368,6 +369,12 @@
             'Technical Setup': '⚙️',
             'Personal': '📋',
             'Business': '💼',
+            // kanban_items categories (lowercase)
+            'strategy': '🧭',
+            'sales': '💰',
+            'marketing': '📣',
+            'operations': '⚙️',
+            'personal': '📋',
             'default': '📌'
         };
 
@@ -382,24 +389,29 @@
 
         async function loadTodos() {
             try {
-                // Load from Supabase
-                const { data: todos, error } = await db
-                    .from('todos')
+                // Load from kanban_items where board='todos'
+                const { data: items, error } = await db
+                    .from('kanban_items')
                     .select('*')
-                    .order('created_at', { ascending: false });
-                
+                    .eq('board', 'todos')
+                    .order('column_id', { ascending: true })
+                    .order('position', { ascending: true });
+
                 if (error) throw error;
-                
-                // Transform to expected format
+
+                // Transform kanban_items to the display format
                 todosData = {
-                    todos: todos.map(t => {
-                        const stored = t.data ? JSON.parse(t.data) : {};
+                    todos: items.map(item => {
+                        const d = item.data || {};
                         return {
-                            id: t.id,
-                            title: t.title,
-                            completed: t.completed,
-                            priority: t.priority,
-                            ...stored
+                            id: item.item_id,
+                            title: d.title,
+                            description: d.description,
+                            priority: d.priority,
+                            category: d.category,
+                            source: d.source,
+                            agent: d.agent,
+                            status: item.column_id,
                         };
                     }),
                     lastUpdated: new Date().toISOString()
